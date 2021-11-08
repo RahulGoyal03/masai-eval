@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <form action="" id="loginForm" onsubmit="login(event)">
+        <input type="text" id="user" placeholder="User Name"><br>
+    </form>
+    <input type="password" id="password" placeholder="Password"><br></form>
+    <input type="submit"></form>
+
+</body>
+
+</html>
+<script>
+    function
+    login(e) {
+        let myForm = document.getElementById("loginForm");
+        let obj = {
+            password: myForm.password.value,
+            username: myForm.user.value,
+        }
+        fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+                method: 'POST',
+                body: JSON.stringify(obj),
+                header: {
+                    "Content-Type": "application/json,"
+                },
+            })
+            .then((res) => {
+                return res.json();
+            })
+            .then((res) => {
+                console.lo(res);
+                fetchUser(obj.username, res.token)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+    }
+
+    function fetchUser(user, token) {
+        fetch(`https://masai-api-mocker.herokuapp.com/user/${user}`, {
+                header: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer $token}`
+                }
+            })
+            .then((res) => {
+                return res.json();
+            })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                consol.log(err);
+            })
+    }
+</script>
